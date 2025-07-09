@@ -222,6 +222,23 @@ class App {
         console.log(`\nSummary: ${initializedCount}/10 initialized, ${readyToTrade}/10 ready to trade`);
         return { priceHistoryLength, initializedCount, readyToTrade };
     }
+    
+    // Test function to add dummy prices and test trading
+    testTrading(numPrices = 100) {
+        console.log(`\n=== TESTING TRADING WITH ${numPrices} PRICES ===`);
+        
+        // Add dummy prices with some variation
+        const startPrice = 100;
+        for (let i = 0; i < numPrices; i++) {
+            const price = startPrice + Math.sin(i * 0.1) * 5 + (Math.random() - 0.5) * 2;
+            this.trading.processNewPrice(price);
+        }
+        
+        // Check status after adding prices
+        setTimeout(() => {
+            this.checkTraderStatus();
+        }, 100);
+    }
 }
 
 // Global function wrappers for HTML event handlers
@@ -254,6 +271,7 @@ function exportPerformanceData() { window.app.exportPerformanceData(); }
 function getTopEMAConfigurations(limit) { return window.app.getTopEMAConfigurations(limit); }
 function getPerformanceAnalysis() { return window.app.getPerformanceAnalysis(); }
 function checkTraderStatus() { return window.app.checkTraderStatus(); }
+function testTrading(numPrices) { return window.app.testTrading(numPrices); }
 
 // Initialize the application
 new App();

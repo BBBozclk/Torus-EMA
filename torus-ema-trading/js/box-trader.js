@@ -29,6 +29,11 @@ class BoxTrader {
         if (!this.isInitialized && priceHistory.length >= this.emaCalculator.slowPeriod) {
             this.emaCalculator.initializeFromHistory(priceHistory);
             this.isInitialized = true;
+            
+            // Debug: Log first successful initialization
+            if (this.boxId === '0.0') {
+                console.log(`Trader ${this.boxId} initialized with ${priceHistory.length} prices, slow EMA needs ${this.emaCalculator.slowPeriod}`);
+            }
         }
         
         // Get Triple EMA signal
