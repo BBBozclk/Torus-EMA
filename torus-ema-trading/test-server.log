@@ -30,3 +30,22 @@
 127.0.0.1 - - [09/Jul/2025 21:22:11] "GET /js/app.js HTTP/1.1" 200 -
 127.0.0.1 - - [09/Jul/2025 21:22:11] code 404, message File not found
 127.0.0.1 - - [09/Jul/2025 21:22:11] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] code 404, message File not found
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET /js/ema-calculator.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET /js/box-trader.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET /js/performance-tracker.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET /js/trading-system.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:26:07] "GET /js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:27:59] "GET / HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:27:59] "GET /js/ema-calculator.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:27:59] "GET /js/box-trader.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:27:59] "GET /js/trading-system.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:27:59] "GET /js/app.js HTTP/1.1" 304 -
+127.0.0.1 - - [09/Jul/2025 21:27:59] code 404, message File not found
+127.0.0.1 - - [09/Jul/2025 21:27:59] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [09/Jul/2025 21:31:21] code 404, message File not found
+127.0.0.1 - - [09/Jul/2025 21:31:21] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -
+127.0.0.1 - - [09/Jul/2025 21:33:13] code 404, message File not found
+127.0.0.1 - - [09/Jul/2025 21:33:13] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 -

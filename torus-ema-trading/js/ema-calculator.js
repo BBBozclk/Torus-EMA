@@ -75,6 +75,11 @@ class TripleEMACalculator {
             this.initializeFromHistory(priceHistory);
         }
         
+        // Update with new prices incrementally (more efficient)
+        while (this.priceCount < priceHistory.length) {
+            this.updateWithPrice(priceHistory[this.priceCount]);
+        }
+        
         // Check if we have enough data for reliable EMA calculation
         if (!this.initialized) {
             return 'HOLD';

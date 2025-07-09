@@ -239,6 +239,16 @@ class App {
         
         // Check status immediately (no timeout needed)
         this.checkTraderStatus();
+        
+        // Also check a few trader account balances
+        console.log('\n=== TRADER ACCOUNT STATUS ===');
+        for (let i = 0; i < 5; i++) {
+            const boxId = `0.${i}`;
+            const trader = this.trading.boxData[boxId];
+            if (trader) {
+                console.log(`Trader ${boxId}: Balance=${trader.accountBalance.toFixed(2)}, Position=${trader.currentPosition}, Trades=${trader.totalTrades}, P&L=${trader.profitLoss.toFixed(2)}`);
+            }
+        }
     }
 }
 

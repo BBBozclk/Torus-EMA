@@ -204,10 +204,16 @@ class TradingSystem {
         // Standardized trading logic - all traders use identical position sizing
         const sharePrice = this.currentPrice;
         
-        // Fixed position sizing: 10% of account balance or available shares
+        // Fixed position sizing: 10% of account balance for buys, 10% of position for sells
         const maxBuyValue = data.accountBalance * 0.1; // 10% of balance
         const maxBuyShares = Math.floor(maxBuyValue / sharePrice);
-        const maxSellShares = Math.min(data.currentPosition, Math.floor(data.currentPosition * 0.1)) || data.currentPosition;
+        const maxSellShares = Math.max(1, Math.floor(data.currentPosition * 0.1)); // At least 1 share if position > 0
+        
+        // Debug first trader occasionally
+        if (boxId === '0.0' && Math.random() < 0.001) {
+            console.log(`Trader 0.0 ${action}: Balance=${data.accountBalance.toFixed(2)}, Position=${data.currentPosition}, Price=${sharePrice.toFixed(2)}`);
+            console.log(`  MaxBuy=${maxBuyShares}, MaxSell=${maxSellShares}`);
+        }
         
         switch(action) {
             case 'BUY':
@@ -217,7 +223,7 @@ class TradingSystem {
                 }
                 break;
             case 'SELL':
-                if (maxSellShares > 0) {
+                if (maxSellShares > 0 && data.currentPosition >= maxSellShares) {
                     data.currentPosition -= maxSellShares;
                     data.accountBalance += sharePrice * maxSellShares;
                 }
