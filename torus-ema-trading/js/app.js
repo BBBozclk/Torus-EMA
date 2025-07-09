@@ -226,6 +226,7 @@ class App {
     // Test function to add dummy prices and test trading
     testTrading(numPrices = 100) {
         console.log(`\n=== TESTING TRADING WITH ${numPrices} PRICES ===`);
+        console.log(`Current price history length: ${this.trading.priceHistory.length}`);
         
         // Add dummy prices with some variation
         const startPrice = 100;
@@ -234,10 +235,10 @@ class App {
             this.trading.processNewPrice(price);
         }
         
-        // Check status after adding prices
-        setTimeout(() => {
-            this.checkTraderStatus();
-        }, 100);
+        console.log(`After adding ${numPrices} prices, history length: ${this.trading.priceHistory.length}`);
+        
+        // Check status immediately (no timeout needed)
+        this.checkTraderStatus();
     }
 }
 

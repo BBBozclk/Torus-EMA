@@ -245,38 +245,40 @@ class TradingSystem {
     
     updatePriceChart() {
         const chartContainer = document.getElementById('priceChart');
-        const maxPoints = 50;
+        const maxPoints = 50; // Only for chart display, not for price history
         
+        // Create a separate array for chart display only
+        let chartPrices = this.priceHistory;
         if (this.priceHistory.length > maxPoints) {
-            this.priceHistory = this.priceHistory.slice(-maxPoints);
+            chartPrices = this.priceHistory.slice(-maxPoints);
         }
         
         chartContainer.innerHTML = '';
         
-        if (this.priceHistory.length < 2) return;
+        if (chartPrices.length < 2) return;
         
-        const minPrice = Math.min(...this.priceHistory);
-        const maxPrice = Math.max(...this.priceHistory);
+        const minPrice = Math.min(...chartPrices);
+        const maxPrice = Math.max(...chartPrices);
         const priceRange = maxPrice - minPrice || 1;
         
         const chartWidth = chartContainer.offsetWidth;
         const chartHeight = chartContainer.offsetHeight;
-        const pointWidth = chartWidth / (this.priceHistory.length - 1);
+        const pointWidth = chartWidth / (chartPrices.length - 1);
         
-        for (let i = 1; i < this.priceHistory.length; i++) {
+        for (let i = 1; i < chartPrices.length; i++) {
             const line = document.createElement('div');
             line.className = 'chart-line';
             
-            const prevHeight = ((this.priceHistory[i-1] - minPrice) / priceRange) * chartHeight;
-            const currHeight = ((this.priceHistory[i] - minPrice) / priceRange) * chartHeight;
+            const prevHeight = ((chartPrices[i-1] - minPrice) / priceRange) * chartHeight;
+            const currHeight = ((chartPrices[i] - minPrice) / priceRange) * chartHeight;
             
             line.style.left = (i * pointWidth) + 'px';
             line.style.height = Math.abs(currHeight - prevHeight) + 'px';
             line.style.bottom = Math.min(prevHeight, currHeight) + 'px';
             
-            if (this.priceHistory[i] > this.priceHistory[i-1]) {
+            if (chartPrices[i] > chartPrices[i-1]) {
                 line.style.background = '#00ff88';
-            } else if (this.priceHistory[i] < this.priceHistory[i-1]) {
+            } else if (chartPrices[i] < chartPrices[i-1]) {
                 line.style.background = '#ff6b6b';
             } else {
                 line.style.background = '#4a90e2';
