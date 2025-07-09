@@ -9,6 +9,9 @@ class TradingSystem {
         this.pnlHeatmapEnabled = false;
         this.isAdminAuthenticated = false;
         
+        // Performance tracking for EMA strategy analysis
+        this.performanceTracker = new PerformanceTracker();
+        
         // Trading materials
         this.TRADING_MATERIALS = {
             BUY: new THREE.MeshBasicMaterial({ color: 0x00ff88, transparent: true, opacity: 0.9 }),
@@ -45,18 +48,12 @@ class TradingSystem {
                 const mediumPeriod = mediumEMARange.min + mediumIndex;
                 const slowPeriod = slowEMARange.min + slowIndex;
                 
-                // Calculate aggressiveness based on EMA speed
-                const avgPeriod = (fastPeriod + mediumPeriod + slowPeriod) / 3;
-                const minAvg = (5 + 30 + 60) / 3;
-                const maxAvg = (24 + 54 + 79) / 3;
-                const aggressiveness = 1 - ((avgPeriod - minAvg) / (maxAvg - minAvg));
-                
+                // Pure EMA strategy - no personality traits
                 this.boxData[boxId] = {
                     id: boxId,
                     status: 'Active',
                     tradingProfile: {
-                        aggressiveness: aggressiveness,
-                        seed: traderIndex,
+                        traderId: traderIndex,
                         emaPeriods: {
                             fast: fastPeriod,
                             medium: mediumPeriod,
@@ -180,27 +177,40 @@ class TradingSystem {
         data.lastAction = action;
         data.totalTrades++;
         
-        // Simple trading logic
+        // Standardized trading logic - all traders use identical position sizing
         const sharePrice = this.currentPrice;
-        const positionSize = Math.floor(Math.random() * 10) + 1;
+        
+        // Fixed position sizing: 10% of account balance or available shares
+        const maxBuyValue = data.accountBalance * 0.1; // 10% of balance
+        const maxBuyShares = Math.floor(maxBuyValue / sharePrice);
+        const maxSellShares = Math.min(data.currentPosition, Math.floor(data.currentPosition * 0.1)) || data.currentPosition;
         
         switch(action) {
             case 'BUY':
-                if (data.accountBalance >= sharePrice * positionSize) {
-                    data.currentPosition += positionSize;
-                    data.accountBalance -= sharePrice * positionSize;
+                if (maxBuyShares > 0 && data.accountBalance >= sharePrice * maxBuyShares) {
+                    data.currentPosition += maxBuyShares;
+                    data.accountBalance -= sharePrice * maxBuyShares;
                 }
                 break;
             case 'SELL':
-                if (data.currentPosition >= positionSize) {
-                    data.currentPosition -= positionSize;
-                    data.accountBalance += sharePrice * positionSize;
+                if (maxSellShares > 0) {
+                    data.currentPosition -= maxSellShares;
+                    data.accountBalance += sharePrice * maxSellShares;
                 }
                 break;
         }
         
         const portfolioValue = data.accountBalance + (data.currentPosition * this.currentPrice);
         data.profitLoss = portfolioValue - data.initialBalance;
+        
+        // Track performance for EMA analysis
+        this.performanceTracker.trackTrader(
+            data.tradingProfile.traderId,
+            data.tradingProfile.emaPeriods,
+            data.profitLoss,
+            data.totalTrades,
+            portfolioValue
+        );
         
         // Update visual
         const material = this.TRADING_MATERIALS[action];
@@ -275,6 +285,34 @@ class TradingSystem {
             if (!silent) {
                 alert('All balances reset successfully');
             }
+            
+            // Clear performance tracking data on reset
+            this.performanceTracker.clearData();
         }
+    }
+    
+    // Performance analysis methods
+    getPerformanceAnalysis() {
+        return this.performanceTracker.getPerformanceSummary();
+    }
+    
+    getTopEMAConfigurations(limit = 10) {
+        return this.performanceTracker.getTopConfigurations(limit);
+    }
+    
+    getWorstEMAConfigurations(limit = 10) {
+        return this.performanceTracker.getWorstConfigurations(limit);
+    }
+    
+    getTopTraders(limit = 10) {
+        return this.performanceTracker.getTopTraders(limit);
+    }
+    
+    logPerformanceAnalysis() {
+        this.performanceTracker.logPerformanceAnalysis();
+    }
+    
+    exportPerformanceData() {
+        this.performanceTracker.exportPerformanceData();
     }
 }

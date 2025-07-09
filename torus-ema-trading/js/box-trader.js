@@ -13,13 +13,8 @@ class BoxTrader {
                 profile.emaPeriods.slow
             );
         } else {
-            // Fallback for backward compatibility
-            const speedMultiplier = 1 - (profile.aggressiveness * 0.3);
-            this.emaCalculator = new TripleEMACalculator(
-                Math.round(9 * speedMultiplier),
-                Math.round(21 * speedMultiplier),
-                Math.round(50 * speedMultiplier)
-            );
+            // Default fallback (should not happen with proper initialization)
+            this.emaCalculator = new TripleEMACalculator(9, 21, 50);
         }
         
         // Track if this trader has been initialized
@@ -39,23 +34,8 @@ class BoxTrader {
         // Get Triple EMA signal
         const signal = this.emaCalculator.getSignal(priceHistory);
         
-        // Optional: Add trader personality influence
-        if (this.profile.aggressiveness > 0.8 && signal === 'HOLD') {
-            const emas = this.emaCalculator.getEMAValues();
-            
-            // Only try this if EMAs are initialized
-            if (emas.initialized) {
-                // Check for partial bullish alignment
-                if (emas.fast > emas.medium) {
-                    if (Math.random() < 0.3) return 'BUY';
-                }
-                
-                // Check for partial bearish alignment
-                if (emas.fast < emas.medium) {
-                    if (Math.random() < 0.3) return 'SELL';
-                }
-            }
-        }
+        // Pure EMA strategy - no personality influences
+        // All traders follow identical logic based solely on EMA alignment
         
         return signal;
     }

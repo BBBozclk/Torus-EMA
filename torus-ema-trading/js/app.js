@@ -172,6 +172,23 @@ class App {
     stopSimulation() {
         this.simulation.stopSimulation();
     }
+    
+    // Performance analysis functions
+    logPerformanceAnalysis() {
+        this.trading.logPerformanceAnalysis();
+    }
+    
+    exportPerformanceData() {
+        this.trading.exportPerformanceData();
+    }
+    
+    getTopEMAConfigurations(limit = 10) {
+        return this.trading.getTopEMAConfigurations(limit);
+    }
+    
+    getPerformanceAnalysis() {
+        return this.trading.getPerformanceAnalysis();
+    }
 }
 
 // Global function wrappers for HTML event handlers
@@ -197,6 +214,12 @@ function useFullRange() { window.app.useFullRange(); }
 function startSimulation() { window.app.startSimulation(); }
 function pauseSimulation() { window.app.pauseSimulation(); }
 function stopSimulation() { window.app.stopSimulation(); }
+
+// Performance analysis functions
+function logPerformanceAnalysis() { window.app.logPerformanceAnalysis(); }
+function exportPerformanceData() { window.app.exportPerformanceData(); }
+function getTopEMAConfigurations(limit) { return window.app.getTopEMAConfigurations(limit); }
+function getPerformanceAnalysis() { return window.app.getPerformanceAnalysis(); }
 
 // Initialize the application
 new App();

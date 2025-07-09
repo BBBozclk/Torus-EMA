@@ -44,8 +44,9 @@ class TripleEMACalculator {
         this.mediumEMA = (newPrice * mediumAlpha) + (this.mediumEMA * (1 - mediumAlpha));
         this.slowEMA = (newPrice * slowAlpha) + (this.slowEMA * (1 - slowAlpha));
         
-        // Mark as initialized once we have enough data
-        if (this.priceCount >= this.fastPeriod) {
+        // Mark as initialized only when we have enough data for the slowest EMA
+        // This ensures all EMAs have sufficient data before trading begins
+        if (this.priceCount >= this.slowPeriod) {
             this.initialized = true;
         }
     }
@@ -74,12 +75,9 @@ class TripleEMACalculator {
             this.initializeFromHistory(priceHistory);
         }
         
-        // Need to be initialized before giving signals
-        if (!this.initialized) {
-            if (priceHistory.length < this.slowPeriod) {
-                return 'HOLD';
-            }
-            this.initializeFromHistory(priceHistory);
+        // Strict requirement: must have enough data for slowest EMA
+        if (!this.initialized || priceHistory.length < this.slowPeriod) {
+            return 'HOLD';
         }
         
         // Make sure EMAs are valid numbers
