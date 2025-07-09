@@ -12,6 +12,9 @@ class TradingSystem {
         // Performance tracking for EMA strategy analysis
         this.performanceTracker = new PerformanceTracker();
         
+        // Persistent trader instances to maintain EMA state
+        this.traders = {};
+        
         // Trading materials
         this.TRADING_MATERIALS = {
             BUY: new THREE.MeshBasicMaterial({ color: 0x00ff88, transparent: true, opacity: 0.9 }),
@@ -69,6 +72,18 @@ class TradingSystem {
                 };
                 
                 traderIndex++;
+            }
+        }
+        
+        // Initialize persistent trader instances
+        this.initializeTraders();
+    }
+    
+    // Create persistent trader instances to maintain EMA state
+    initializeTraders() {
+        for (let boxId in this.boxData) {
+            if (this.boxData[boxId].status === 'Active') {
+                this.traders[boxId] = new BoxTrader(boxId, this.boxData[boxId].tradingProfile, this.boxData);
             }
         }
     }
@@ -130,11 +145,15 @@ class TradingSystem {
             if (this.boxData[boxId] && this.boxData[boxId].status === 'Active') {
                 activeTraderCount++;
                 
-                // Create trader instance
-                const trader = new BoxTrader(boxId, this.boxData[boxId].tradingProfile, this.boxData);
+                // Use persistent trader instance
+                const trader = this.traders[boxId];
+                if (!trader) {
+                    // Fallback: create trader if missing
+                    this.traders[boxId] = new BoxTrader(boxId, this.boxData[boxId].tradingProfile, this.boxData);
+                }
                 
                 // Get trading decision
-                const action = trader.makeDecision(this.currentPrice, this.priceHistory);
+                const action = this.traders[boxId].makeDecision(this.currentPrice, this.priceHistory);
                 
                 // Execute the trade
                 this.executeTradeAction(boxId, action);
@@ -146,6 +165,11 @@ class TradingSystem {
                     case 'HOLD': holdCount++; break;
                 }
             }
+        }
+        
+        // Debug: Log trading activity for troubleshooting
+        if (this.priceHistory.length > 80 && (buyCount > 0 || sellCount > 0)) {
+            console.log(`Price ${this.priceHistory.length}: BUY=${buyCount}, SELL=${sellCount}, HOLD=${holdCount}`);
         }
         
         // Update UI stats
@@ -286,8 +310,10 @@ class TradingSystem {
                 alert('All balances reset successfully');
             }
             
-            // Clear performance tracking data on reset
+            // Clear performance tracking data and traders on reset
             this.performanceTracker.clearData();
+            this.traders = {};
+            this.initializeTraders();
         }
     }
     

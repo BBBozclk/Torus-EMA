@@ -26,7 +26,7 @@ class BoxTrader {
         if (data.status !== 'Active') return 'HOLD';
         
         // Initialize EMAs from history if not done yet
-        if (!this.isInitialized && priceHistory.length > 0) {
+        if (!this.isInitialized && priceHistory.length >= this.emaCalculator.slowPeriod) {
             this.emaCalculator.initializeFromHistory(priceHistory);
             this.isInitialized = true;
         }

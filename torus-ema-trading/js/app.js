@@ -189,6 +189,39 @@ class App {
     getPerformanceAnalysis() {
         return this.trading.getPerformanceAnalysis();
     }
+    
+    // Diagnostic function to check trader status
+    checkTraderStatus() {
+        const priceHistoryLength = this.trading.priceHistory.length;
+        let initializedCount = 0;
+        let readyToTrade = 0;
+        
+        console.log(`\n=== TRADER STATUS DIAGNOSTIC ===`);
+        console.log(`Price History Length: ${priceHistoryLength}`);
+        
+        // Check first 10 traders as sample
+        for (let i = 0; i < 10; i++) {
+            const ring = Math.floor(i / 100);
+            const box = i % 100;
+            const boxId = `${ring}.${box}`;
+            const trader = this.trading.traders[boxId];
+            
+            if (trader) {
+                const emas = trader.emaCalculator.getEMAValues();
+                const signal = trader.emaCalculator.getSignal(this.trading.priceHistory);
+                
+                if (trader.isInitialized) initializedCount++;
+                if (signal !== 'HOLD') readyToTrade++;
+                
+                console.log(`Trader ${boxId}: EMA(${trader.emaCalculator.fastPeriod},${trader.emaCalculator.mediumPeriod},${trader.emaCalculator.slowPeriod})`);
+                console.log(`  Initialized: ${trader.isInitialized}, Signal: ${signal}`);
+                console.log(`  EMAs: Fast=${emas.fast?.toFixed(2)}, Medium=${emas.medium?.toFixed(2)}, Slow=${emas.slow?.toFixed(2)}`);
+            }
+        }
+        
+        console.log(`\nSummary: ${initializedCount}/10 initialized, ${readyToTrade}/10 ready to trade`);
+        return { priceHistoryLength, initializedCount, readyToTrade };
+    }
 }
 
 // Global function wrappers for HTML event handlers
@@ -220,6 +253,7 @@ function logPerformanceAnalysis() { window.app.logPerformanceAnalysis(); }
 function exportPerformanceData() { window.app.exportPerformanceData(); }
 function getTopEMAConfigurations(limit) { return window.app.getTopEMAConfigurations(limit); }
 function getPerformanceAnalysis() { return window.app.getPerformanceAnalysis(); }
+function checkTraderStatus() { return window.app.checkTraderStatus(); }
 
 // Initialize the application
 new App();

@@ -75,8 +75,8 @@ class TripleEMACalculator {
             this.initializeFromHistory(priceHistory);
         }
         
-        // Strict requirement: must have enough data for slowest EMA
-        if (!this.initialized || priceHistory.length < this.slowPeriod) {
+        // Check if we have enough data for reliable EMA calculation
+        if (!this.initialized) {
             return 'HOLD';
         }
         

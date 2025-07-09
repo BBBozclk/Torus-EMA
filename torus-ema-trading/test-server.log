@@ -1,0 +1,12 @@
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /css/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /js/ema-calculator.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /js/box-trader.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /js/performance-tracker.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /js/trading-system.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /js/scene-manager.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:36] "GET /js/admin-panel.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:37] "GET /js/simulation.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:37] "GET /js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [09/Jul/2025 21:04:38] code 404, message File not found
+127.0.0.1 - - [09/Jul/2025 21:04:38] "GET /favicon.ico HTTP/1.1" 404 -
