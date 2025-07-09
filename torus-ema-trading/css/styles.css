@@ -1,0 +1,491 @@
+/* Eye of the Market - Trading System Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+
+#stats {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: right;
+    display: none;
+}
+
+#title {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    z-index: 100;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+#title h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    color: #4a90e2;
+}
+
+#title p {
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+    color: #ccc;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+}
+
+.control-btn {
+    background: rgba(0, 150, 255, 0.8);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.control-btn:hover {
+    background: rgba(0, 150, 255, 1);
+}
+
+.control-btn.active {
+    background: rgba(255, 107, 107, 0.8);
+}
+
+/* Trading Panel */
+#tradingPanel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 350px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #4a90e2;
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    z-index: 100;
+}
+
+#tradingPanel h3 {
+    margin: 0 0 15px 0;
+    color: #4a90e2;
+    text-align: center;
+}
+
+.price-input-section {
+    margin-bottom: 20px;
+}
+
+#priceField {
+    width: 70%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    font-size: 16px;
+}
+
+#submitPriceBtn {
+    width: 25%;
+    padding: 8px;
+    background: #00ff88;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#submitPriceBtn:hover {
+    background: #00cc6a;
+}
+
+#submitPriceBtn:disabled {
+    background: #666;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.price-chart {
+    height: 150px;
+    background: #222;
+    border: 1px solid #555;
+    border-radius: 5px;
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-line {
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    background: #00ff88;
+    transition: all 0.3s ease;
+}
+
+.trading-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 0.9em;
+}
+
+.stat-item {
+    background: #333;
+    padding: 8px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+.trading-controls button {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #4a90e2;
+    color: white;
+}
+
+.trading-controls button:hover {
+    background: #357abd;
+}
+
+/* EMA Display */
+.ema-display {
+    margin-top: 10px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-radius: 5px;
+}
+
+.ema-display h4 {
+    margin: 0 0 10px 0;
+    color: #4a90e2;
+    font-size: 0.9em;
+}
+
+.ema-display div {
+    font-size: 0.85em;
+}
+
+#fastEMA {
+    color: #00ff88;
+}
+
+#mediumEMA {
+    color: #ffaa00;
+}
+
+#slowEMA {
+    color: #ff4444;
+}
+
+#marketSignal {
+    font-weight: bold;
+}
+
+/* Simulation Panel */
+#simulationPanel {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(40, 0, 80, 0.3);
+    border: 1px solid #8b4ae2;
+    border-radius: 5px;
+}
+
+#simulationPanel h4 {
+    margin: 0 0 10px 0;
+    color: #8b4ae2;
+    font-size: 0.95em;
+}
+
+.simulation-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.simulation-controls button {
+    padding: 6px 12px;
+    background: #8b4ae2;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.simulation-controls button:hover {
+    background: #7a3dd1;
+}
+
+.simulation-controls button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.simulation-controls input[type="file"] {
+    display: none;
+}
+
+.simulation-controls label {
+    padding: 6px 12px;
+    background: #4a90e2;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.simulation-controls label:hover {
+    background: #357abd;
+}
+
+.date-range-selector {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.date-range-selector label {
+    color: white;
+    font-size: 0.85em;
+    margin-right: 10px;
+}
+
+.date-range-selector input[type="date"] {
+    padding: 4px 8px;
+    background: #333;
+    color: white;
+    border: 1px solid #666;
+    border-radius: 3px;
+    margin-right: 15px;
+}
+
+.date-range-selector button {
+    padding: 5px 10px;
+    background: #00ff88;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.date-range-selector button:hover {
+    background: #00cc6a;
+}
+
+.simulation-speed {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85em;
+    color: white;
+}
+
+.simulation-speed input[type="range"] {
+    width: 100px;
+}
+
+.simulation-status {
+    font-size: 0.85em;
+    color: #8b4ae2;
+    margin-top: 5px;
+}
+
+.data-info {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 5px;
+}
+
+/* Admin Panel */
+#adminPanel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(20, 0, 40, 0.95);
+    border: 2px solid #ff00ff;
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    font-size: 12px;
+    max-width: 400px;
+    display: none;
+    z-index: 150;
+}
+
+#adminPanel h4 {
+    margin: 0 0 10px 0;
+    color: #ff00ff;
+    text-align: center;
+}
+
+.admin-login {
+    text-align: center;
+    padding: 20px;
+}
+
+.admin-login input {
+    padding: 8px;
+    margin: 10px 0;
+    width: 200px;
+    background: #333;
+    border: 1px solid #ff00ff;
+    color: white;
+    border-radius: 5px;
+}
+
+.admin-login button {
+    padding: 8px 20px;
+    background: #ff00ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.admin-content {
+    display: none;
+}
+
+.cell-selector {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.cell-selector input {
+    padding: 5px;
+    background: #333;
+    border: 1px solid #666;
+    color: white;
+    border-radius: 3px;
+}
+
+.cell-details {
+    background: #1a1a1a;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-family: monospace;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.cell-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px solid #333;
+}
+
+.cell-detail-row.profit {
+    color: #00ff88;
+}
+
+.cell-detail-row.loss {
+    color: #ff4444;
+}
+
+.admin-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.admin-actions button {
+    padding: 5px;
+    background: #663399;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.admin-actions button:hover {
+    background: #7d4bb8;
+}
+
+.pnl-heat-toggle {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.pnl-heat-toggle button {
+    padding: 8px 15px;
+    background: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pnl-heat-toggle button.active {
+    background: #00ff00;
+}

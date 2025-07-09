@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye of the Market - Enhanced Trading System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="title">
+        <h1>Eye of the Market</h1>
+        <p>Enhanced Trading System v2.0 - WORKING VERSION - Portfolio by Refik Baris Ozcelik</p>
+    </div>
+    
+    <!-- Trading Panel -->
+    <div id="tradingPanel">
+        <h3>Trading System</h3>
+        
+        <div class="price-input-section">
+            <div style="margin-bottom: 10px;">
+                <label>Current Price: $<span id="currentPrice">100.00</span></label>
+            </div>
+            <div style="display: flex;">
+                <input type="number" id="priceField" placeholder="Enter new price" step="0.01" min="0.01">
+                <button id="submitPriceBtn" onclick="submitPrice()">Update</button>
+            </div>
+        </div>
+        
+        <div class="price-chart" id="priceChart">
+            <!-- Chart lines will be generated here -->
+        </div>
+        
+        <div class="ema-display" style="margin-top: 10px; padding: 10px; background: #1a1a1a; border-radius: 5px;">
+            <h4 style="margin: 0 0 10px 0; color: #4a90e2; font-size: 0.9em;">Market EMAs</h4>
+            <div style="font-size: 0.85em;">
+                <div>Fast EMA (9): <span id="fastEMA" style="color: #00ff88;">--</span></div>
+                <div>Medium EMA (21): <span id="mediumEMA" style="color: #ffaa00;">--</span></div>
+                <div>Slow EMA (50): <span id="slowEMA" style="color: #ff4444;">--</span></div>
+                <div style="margin-top: 5px; font-size: 0.8em; color: #666;">
+                    Signal: <span id="marketSignal" style="font-weight: bold;">--</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="trading-stats">
+            <div class="stat-item">
+                <div>Active Traders</div>
+                <div class="stat-value" id="activeTraders">10000</div>
+            </div>
+            <div class="stat-item">
+                <div>Last Update</div>
+                <div class="stat-value" id="lastUpdate">--</div>
+            </div>
+            <div class="stat-item">
+                <div>Buying</div>
+                <div class="stat-value" id="buyingCount">--</div>
+            </div>
+            <div class="stat-item">
+                <div>Selling</div>
+                <div class="stat-value" id="sellingCount">--</div>
+            </div>
+            <div class="stat-item">
+                <div>Holding</div>
+                <div class="stat-value" id="holdingCount">--</div>
+            </div>
+            <div class="stat-item">
+                <div>Processing</div>
+                <div class="stat-value" id="processingStatus">Ready</div>
+            </div>
+        </div>
+        
+        <div class="trading-controls">
+            <button onclick="resetAllBalances()">Reset All Balances</button>
+        </div>
+        
+        <div id="simulationPanel">
+            <h4>📊 Historical Data Simulation</h4>
+            <div class="simulation-controls">
+                <input type="file" id="csvFileInput" accept=".csv" onchange="loadHistoricalData(event)">
+                <label for="csvFileInput">Load CSV</label>
+                <button id="loadUSDJPYBtn" onclick="loadUSDJPYData()">Load USD/JPY (5019 days)</button>
+                <button id="startSimBtn" onclick="startSimulation()" disabled>Start</button>
+                <button id="pauseSimBtn" onclick="pauseSimulation()" disabled>Pause</button>
+                <button id="stopSimBtn" onclick="stopSimulation()" disabled>Stop</button>
+            </div>
+            
+            <div class="date-range-selector" id="dateRangeSelector" style="display: none;">
+                <label>From:</label>
+                <input type="date" id="startDate" value="2022-01-01">
+                <label>To:</label>
+                <input type="date" id="endDate" value="2025-07-07">
+                <button onclick="applyDateRange()">Apply Range</button>
+                <button onclick="useFullRange()">Use Full Range</button>
+            </div>
+            
+            <div class="simulation-speed">
+                <span>Speed:</span>
+                <input type="range" id="simSpeed" min="50" max="2000" value="500" step="50">
+                <span id="simSpeedValue">500ms</span>
+            </div>
+            <div class="simulation-status" id="simStatus">Click "Load USD/JPY" to start</div>
+            <div class="data-info" id="dataInfo"></div>
+        </div>
+    </div>
+    
+    <div id="info">
+        <div>🎯 Working Version: Individual trading decisions active</div>
+        <div>Mouse: Rotate | Wheel: Zoom | Click: Highlight</div>
+        <div>Enter prices to see unique trader behaviors</div>
+        <div>Objects: <span id="objectCount">10,000</span> unique traders</div>
+    </div>
+    
+    <div id="stats">
+        <div>Clicked: <span id="clickedCount">0</span></div>
+        <div>FPS: <span id="fps">60</span></div>
+        <div>Camera: <span id="cameraPos">X: 0, Y: 0, Z: 25</span></div>
+    </div>
+    
+    <div id="controls">
+        <button id="fixedViewBtn" class="control-btn" onclick="setFixedView()">Fixed View</button>
+        <button id="adminToggleBtn" class="control-btn" onclick="toggleAdminPanel()">Admin Access</button>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div id="adminPanel">
+        <h4>🔐 Admin Control Panel</h4>
+        
+        <div class="admin-login" id="adminLogin">
+            <input type="password" id="adminPassword" placeholder="Admin Password">
+            <button onclick="adminAuthenticate()">Login</button>
+        </div>
+        
+        <div class="admin-content" id="adminContent">
+            <div class="cell-selector">
+                <input type="number" id="ringSelect" placeholder="Ring (0-99)" min="0" max="99">
+                <input type="number" id="boxSelect" placeholder="Box (0-99)" min="0" max="99">
+                <button onclick="selectCell()" style="grid-column: span 2; padding: 5px; background: #ff00ff; color: white; border: none; border-radius: 3px; cursor: pointer;">Select Cell</button>
+            </div>
+            
+            <div class="cell-details" id="cellDetails">
+                <div style="text-align: center; color: #666;">No cell selected</div>
+            </div>
+            
+            <div class="pnl-heat-toggle">
+                <button id="pnlHeatmapBtn" onclick="togglePnLHeatmap()">Enable P&L Heatmap</button>
+            </div>
+            
+            <div class="admin-actions">
+                <button onclick="modifyTraderAggression()">Modify Aggression</button>
+                <button onclick="forceTraderAction('BUY')">Force Buy</button>
+                <button onclick="forceTraderAction('SELL')">Force Sell</button>
+                <button onclick="resetTraderBalance()">Reset Balance</button>
+                <button onclick="setCustomBalance()">Set Balance</button>
+                <button onclick="exportTraderData()">Export Data</button>
+                <button onclick="highlightProfitable()">Show Profitable</button>
+                <button onclick="highlightLosses()">Show Losses</button>
+            </div>
+            
+            <div style="margin-top: 10px; text-align: center;">
+                <button onclick="exportAllData()" style="padding: 5px 10px; background: #00bcd4; color: white; border: none; border-radius: 3px; cursor: pointer;">Export All Trader Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="js/ema-calculator.js"></script>
+    <script src="js/box-trader.js"></script>
+    <script src="js/trading-system.js"></script>
+    <script src="js/scene-manager.js"></script>
+    <script src="js/admin-panel.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
