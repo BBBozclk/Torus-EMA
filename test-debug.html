@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Performance Tracking Debug Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .log { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Performance Tracking Debug Test</h1>
+    
+    <button onclick="runTest()">Run Performance Test</button>
+    <button onclick="runTestTrading()">Run Test Trading (100 prices)</button>
+    <button onclick="clearLogs()">Clear Logs</button>
+    
+    <div id="logs" class="log"></div>
+    
+    <script src="js/ema-calculator.js"></script>
+    <script src="js/box-trader.js"></script>
+    <script src="js/performance-tracker.js"></script>
+    <script src="js/trading-system.js"></script>
+    <script src="js/scene-manager.js"></script>
+    <script src="js/admin-panel.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/app.js"></script>
+    
+    <script>
+        function log(message) {
+            const logs = document.getElementById('logs');
+            logs.innerHTML += message + '<br>';
+            logs.scrollTop = logs.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+        }
+        
+        function runTest() {
+            log("=== PERFORMANCE TRACKING TEST ===");
+            
+            if (typeof window.app === 'undefined') {
+                log("ERROR: App not loaded yet. Wait for page to load completely.");
+                return;
+            }
+            
+            log("✓ App loaded successfully");
+            
+            // Reset everything
+            log("1. Resetting all balances...");
+            window.app.resetAllBalances();
+            
+            // Add enough prices to initialize EMAs
+            log("2. Adding 100 prices to initialize EMAs...");
+            for (let i = 0; i < 100; i++) {
+                const price = 100 + Math.sin(i * 0.1) * 5 + (Math.random() - 0.5) * 2;
+                window.app.trading.processNewPrice(price);
+            }
+            
+            // Check performance
+            log("3. Checking performance...");
+            const perf = window.app.getPerformanceAnalysis();
+            log(`Performance Summary: ${JSON.stringify(perf, null, 2)}`);
+            
+            // Check top configurations
+            log("4. Top EMA configurations:");
+            const topConfigs = window.app.getTopEMAConfigurations(5);
+            topConfigs.forEach((config, i) => {
+                log(`${i+1}. EMA(${config.fast},${config.medium},${config.slow}): ${config.avgReturn} avg return, ${config.activeTraders} active traders`);
+            });
+            
+            log("=== TEST COMPLETE ===");
+        }
+        
+        function runTestTrading() {
+            log("=== RUNNING TEST TRADING ===");
+            
+            if (typeof window.app === 'undefined') {
+                log("ERROR: App not loaded yet.");
+                return;
+            }
+            
+            // Use the enhanced testTrading function
+            window.app.testTrading(100);
+            
+            log("=== TEST TRADING COMPLETE ===");
+        }
+    </script>
+</body>
+</html>

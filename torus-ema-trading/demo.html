@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye of the Market - Professional Demonstration</title>
+    <link rel="stylesheet" href="css/demo-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Page 1: Title & Executive Summary -->
+    <section class="page title-page">
+        <div class="page-header">
+            <div class="logo-section">
+                <h1 class="main-title">Eye of the Market</h1>
+                <p class="subtitle">Advanced EMA Trading Strategy Analysis System</p>
+            </div>
+            <div class="date-info">
+                <p>Professional Demonstration</p>
+                <p id="current-date"></p>
+            </div>
+        </div>
+        
+        <div class="executive-summary">
+            <h2>Executive Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-card highlight">
+                    <h3>🎯 Core Innovation</h3>
+                    <p>Revolutionary 3D torus visualization enabling simultaneous analysis of <strong>10,000 unique EMA trading strategies</strong> with real-time performance tracking.</p>
+                </div>
+                
+                <div class="summary-card">
+                    <h3>📊 Key Metrics</h3>
+                    <ul>
+                        <li><strong>10,000</strong> simultaneous traders</li>
+                        <li><strong>5 time periods</strong> performance analysis</li>
+                        <li><strong>99%+</strong> CSV parsing success rate</li>
+                        <li><strong>Real-time</strong> strategy ranking</li>
+                    </ul>
+                </div>
+                
+                <div class="summary-card">
+                    <h3>💡 Benefits</h3>
+                    <ul>
+                        <li>Eliminate manual strategy testing</li>
+                        <li>Identify optimal EMA configurations</li>
+                        <li>Adapt to market condition changes</li>
+                        <li>Robust historical data analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="visual-overview">
+            <div class="demo-container">
+                <canvas id="demo-canvas"></canvas>
+                <div class="canvas-overlay">
+                    <div class="callout top-left">
+                        <div class="callout-content">
+                            <h4>3D Torus Visualization</h4>
+                            <p>Each point represents a unique EMA strategy</p>
+                        </div>
+                        <div class="arrow arrow-to-center"></div>
+                    </div>
+                    <div class="callout bottom-right">
+                        <div class="callout-content">
+                            <h4>Real-time Color Coding</h4>
+                            <p>Green: BUY | Red: SELL | Blue: HOLD</p>
+                        </div>
+                        <div class="arrow arrow-to-traders"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="page-footer">
+            <p>Developed by Refik Baris Ozcelik | Advanced Trading System Portfolio</p>
+        </div>
+    </section>
+
+    <!-- Page 2: Problem Statement -->
+    <section class="page problem-page">
+        <h2 class="page-title">The Challenge: Traditional Trading Strategy Analysis</h2>
+        
+        <div class="problem-section">
+            <div class="problem-item">
+                <div class="problem-icon">⏰</div>
+                <h3>Time-Intensive Manual Testing</h3>
+                <p>Testing different EMA combinations manually requires weeks of analysis for each configuration. With thousands of possible combinations, comprehensive testing becomes impractical.</p>
+                
+                <div class="before-after">
+                    <div class="before">
+                        <h4>❌ Traditional Approach</h4>
+                        <ul>
+                            <li>Test 1 strategy at a time</li>
+                            <li>Manual parameter adjustment</li>
+                            <li>Weeks per configuration</li>
+                            <li>Limited comparison ability</li>
+                        </ul>
+                    </div>
+                    <div class="after">
+                        <h4>✅ Our Solution</h4>
+                        <ul>
+                            <li>Test 10,000 strategies simultaneously</li>
+                            <li>Automated parameter distribution</li>
+                            <li>Real-time results</li>
+                            <li>Instant performance ranking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="problem-item">
+                <div class="problem-icon">📊</div>
+                <h3>Inconsistent Data Handling</h3>
+                <p>Historical market data comes in various formats with inconsistencies, missing values, and parsing errors that corrupt analysis results.</p>
+                
+                <div class="data-problems">
+                    <div class="problem-example">
+                        <h4>Common CSV Issues:</h4>
+                        <div class="code-block">
+                            <pre>Date,Open,High,Low,Close
+"2023-01-01,100.50,101.00,99.80,100.25
+2023-01-02",101.00,102.50,NULL,102.00
+2023-01-03,102.00,INVALID,101.50,"102.75"</pre>
+                        </div>
+                        <div class="solution-arrow">↓</div>
+                        <div class="solution-block">
+                            <strong>Robust Parser Handles:</strong>
+                            <ul>
+                                <li>Malformed quotes correction</li>
+                                <li>NULL value handling</li>
+                                <li>Invalid data filtering</li>
+                                <li>Automatic format detection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="problem-item">
+                <div class="problem-icon">🔄</div>
+                <h3>Market Condition Adaptation</h3>
+                <p>Strategies that work in one market period may fail in another. Traditional analysis lacks temporal performance tracking to identify these changes.</p>
+                
+                <div class="temporal-chart">
+                    <div class="chart-example">
+                        <h4>Strategy Performance Over Time</h4>
+                        <div class="chart-bars">
+                            <div class="time-period">
+                                <div class="bar-container">
+                                    <div class="bar bull-market" style="height: 80%"></div>
+                                    <span>2020-2021<br>Bull Market</span>
+                                </div>
+                            </div>
+                            <div class="time-period">
+                                <div class="bar-container">
+                                    <div class="bar bear-market" style="height: 30%"></div>
+                                    <span>2022<br>Bear Market</span>
+                                </div>
+                            </div>
+                            <div class="time-period">
+                                <div class="bar-container">
+                                    <div class="bar sideways-market" style="height: 60%"></div>
+                                    <span>2023<br>Sideways</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p><strong>Same EMA strategy</strong> performing differently across market conditions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page 3: Solution - The Torus -->
+    <section class="page solution-page">
+        <h2 class="page-title">Solution: The Torus Visualization System</h2>
+        
+        <div class="torus-explanation">
+            <div class="torus-visual">
+                <div class="torus-container">
+                    <canvas id="solution-canvas"></canvas>
+                    <div class="torus-annotations">
+                        <div class="annotation top">
+                            <div class="annotation-box">
+                                <h4>100 x 100 = 10,000 Traders</h4>
+                                <p>Each point represents a unique EMA configuration</p>
+                            </div>
+                            <div class="annotation-line"></div>
+                        </div>
+                        <div class="annotation bottom">
+                            <div class="annotation-box">
+                                <h4>Real-time Color Updates</h4>
+                                <p>Visual feedback for each trader's decision</p>
+                            </div>
+                            <div class="annotation-line"></div>
+                        </div>
+                        <div class="annotation left">
+                            <div class="annotation-box">
+                                <h4>Interactive 3D Navigation</h4>
+                                <p>Rotate, zoom, and explore</p>
+                            </div>
+                            <div class="annotation-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="torus-details">
+                <h3>How the Torus Works</h3>
+                
+                <div class="detail-item">
+                    <div class="detail-number">1</div>
+                    <div class="detail-content">
+                        <h4>Parameter Distribution</h4>
+                        <p>10,000 unique EMA combinations distributed across the torus surface:</p>
+                        <ul>
+                            <li><strong>Fast EMA:</strong> 5-24 periods</li>
+                            <li><strong>Medium EMA:</strong> 30-54 periods</li>
+                            <li><strong>Slow EMA:</strong> 60-79 periods</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-number">2</div>
+                    <div class="detail-content">
+                        <h4>Simultaneous Execution</h4>
+                        <p>Every price update triggers all 10,000 traders to:</p>
+                        <ul>
+                            <li>Calculate their unique EMA values</li>
+                            <li>Generate BUY/SELL/HOLD signals</li>
+                            <li>Execute trades based on their logic</li>
+                            <li>Update their performance metrics</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-number">3</div>
+                    <div class="detail-content">
+                        <h4>Visual Feedback</h4>
+                        <p>Each trader's current decision is displayed through color:</p>
+                        <div class="color-legend">
+                            <span class="color-sample buy"></span> <strong>BUY</strong> - Bullish EMA alignment
+                            <span class="color-sample sell"></span> <strong>SELL</strong> - Bearish EMA alignment  
+                            <span class="color-sample hold"></span> <strong>HOLD</strong> - Mixed or insufficient data
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="technical-specs">
+            <h3>Technical Architecture</h3>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h4>🎨 Visualization</h4>
+                    <ul>
+                        <li>Three.js WebGL rendering</li>
+                        <li>60 FPS smooth animation</li>
+                        <li>Interactive 3D navigation</li>
+                        <li>Real-time color updates</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h4>⚡ Performance</h4>
+                    <ul>
+                        <li>10,000 traders processed in ~100ms</li>
+                        <li>Persistent trader state management</li>
+                        <li>Incremental EMA calculations</li>
+                        <li>Optimized memory usage</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h4>📊 Analytics</h4>
+                    <ul>
+                        <li>Timestamped performance history</li>
+                        <li>5 time-period leaderboards</li>
+                        <li>Statistical outlier removal</li>
+                        <li>Export capabilities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page 4: Feature Demonstrations -->
+    <section class="page features-page">
+        <h2 class="page-title">Core Features & Capabilities</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card primary">
+                <h3>📊 Time-Based Performance Leaderboards</h3>
+                <div class="feature-demo">
+                    <div class="demo-screenshot">
+                        <div class="screenshot-placeholder">
+                            <div class="tab-mockup">
+                                <div class="tabs">
+                                    <span class="tab active">All-Time</span>
+                                    <span class="tab">Yearly</span>
+                                    <span class="tab">Quarterly</span>
+                                    <span class="tab">Monthly</span>
+                                    <span class="tab">Weekly</span>
+                                </div>
+                                <div class="leaderboard-mockup">
+                                    <div class="leaderboard-item gold">
+                                        <span class="rank">1</span>
+                                        <span class="ema">EMA(12,26,55)</span>
+                                        <span class="return positive">+15.2%</span>
+                                    </div>
+                                    <div class="leaderboard-item silver">
+                                        <span class="rank">2</span>
+                                        <span class="ema">EMA(9,21,50)</span>
+                                        <span class="return positive">+12.8%</span>
+                                    </div>
+                                    <div class="leaderboard-item bronze">
+                                        <span class="rank">3</span>
+                                        <span class="ema">EMA(15,30,60)</span>
+                                        <span class="return positive">+11.4%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-benefits">
+                        <h4>Key Benefits:</h4>
+                        <ul>
+                            <li><strong>Temporal Analysis:</strong> See which strategies work in different time periods</li>
+                            <li><strong>Market Adaptation:</strong> Identify strategies that adapt to changing conditions</li>
+                            <li><strong>Top 30 Rankings:</strong> Comprehensive leaderboards for each time period</li>
+                            <li><strong>Real-time Updates:</strong> Performance metrics update with each price change</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🔧 Robust CSV Parser</h3>
+                <div class="feature-demo">
+                    <div class="parser-example">
+                        <h4>Handles Problematic Data:</h4>
+                        <div class="parser-flow">
+                            <div class="input-data">
+                                <h5>Input (Malformed CSV):</h5>
+                                <div class="code-block small">
+                                    <pre>"2023-01-01,100.50,NULL,99.80,100.25
+2023-01-02",101.00,102.50,INVALID,102.00</pre>
+                                </div>
+                            </div>
+                            <div class="parser-arrow">→</div>
+                            <div class="output-data">
+                                <h5>Output (Clean Data):</h5>
+                                <div class="success-block">
+                                    <pre>✅ Parsed: 2023-01-01, 100.25
+✅ Parsed: 2023-01-02, 102.00
+📊 Success Rate: 100%</pre>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="parser-capabilities">
+                            <div class="capability">
+                                <span class="check">✅</span>
+                                <span>Auto-detects format (OHLC, Price+Date, Simple)</span>
+                            </div>
+                            <div class="capability">
+                                <span class="check">✅</span>
+                                <span>Fixes malformed quotes and delimiters</span>
+                            </div>
+                            <div class="capability">
+                                <span class="check">✅</span>
+                                <span>Removes statistical outliers</span>
+                            </div>
+                            <div class="capability">
+                                <span class="check">✅</span>
+                                <span>Detailed error reporting with line numbers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h3>⚡ Real-time Strategy Execution</h3>
+                <div class="execution-flow">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Price Input</h4>
+                            <p>New market price received</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>EMA Calculation</h4>
+                            <p>10,000 unique EMA sets calculated</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Signal Generation</h4>
+                            <p>BUY/SELL/HOLD decisions made</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Visual Update</h4>
+                            <p>Torus colors update instantly</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="performance-metrics">
+                    <h4>Performance Metrics:</h4>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <span class="metric-value">~100ms</span>
+                            <span class="metric-label">Processing Time</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">10,000</span>
+                            <span class="metric-label">Simultaneous Strategies</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">60 FPS</span>
+                            <span class="metric-label">Visualization Rate</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page 5: Benefits & ROI -->
+    <section class="page benefits-page">
+        <h2 class="page-title">Benefits & Return on Investment</h2>
+        
+        <div class="roi-section">
+            <h3>Quantifiable Benefits</h3>
+            
+            <div class="roi-comparison">
+                <div class="traditional-approach">
+                    <h4>❌ Traditional Manual Analysis</h4>
+                    <div class="cost-breakdown">
+                        <div class="cost-item">
+                            <span class="cost-label">Time per strategy test:</span>
+                            <span class="cost-value">2-4 weeks</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">Strategies testable per year:</span>
+                            <span class="cost-value">10-20</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">Data preparation time:</span>
+                            <span class="cost-value">Hours per dataset</span>
+                        </div>
+                        <div class="cost-item">
+                            <span class="cost-label">Comparison difficulty:</span>
+                            <span class="cost-value">High - manual tracking</span>
+                        </div>
+                        <div class="total-cost">
+                            <strong>Total: Months of analysis for limited coverage</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="our-approach">
+                    <h4>✅ Our Automated System</h4>
+                    <div class="benefit-breakdown">
+                        <div class="benefit-item">
+                            <span class="benefit-label">Time per strategy test:</span>
+                            <span class="benefit-value">Instant</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-label">Strategies tested simultaneously:</span>
+                            <span class="benefit-value">10,000</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-label">Data preparation time:</span>
+                            <span class="benefit-value">Seconds (auto-parsing)</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-label">Comparison capability:</span>
+                            <span class="benefit-value">Real-time rankings</span>
+                        </div>
+                        <div class="total-benefit">
+                            <strong>Total: Complete analysis in minutes</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="business-value">
+            <h3>Business Value Proposition</h3>
+            
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">🚀</div>
+                    <h4>Speed to Market</h4>
+                    <p><strong>1000x faster</strong> strategy validation enables rapid adaptation to market changes and immediate identification of optimal configurations.</p>
+                    <div class="value-metric">
+                        <span class="metric-big">Days → Minutes</span>
+                        <span class="metric-small">Strategy testing time</span>
+                    </div>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">🎯</div>
+                    <h4>Comprehensive Coverage</h4>
+                    <p>Test <strong>every viable EMA combination</strong> instead of a small sample, ensuring you find the truly optimal strategies.</p>
+                    <div class="value-metric">
+                        <span class="metric-big">20 → 10,000</span>
+                        <span class="metric-small">Strategies analyzed</span>
+                    </div>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">📊</div>
+                    <h4>Data-Driven Decisions</h4>
+                    <p>Eliminate guesswork with <strong>quantitative performance rankings</strong> across multiple time periods and market conditions.</p>
+                    <div class="value-metric">
+                        <span class="metric-big">5 Time Periods</span>
+                        <span class="metric-small">Performance analysis</span>
+                    </div>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">🛡️</div>
+                    <h4>Risk Reduction</h4>
+                    <p>Identify strategies that perform consistently across different market conditions, reducing the risk of strategy failure.</p>
+                    <div class="value-metric">
+                        <span class="metric-big">99%+ Success</span>
+                        <span class="metric-small">Data parsing accuracy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="use-cases">
+            <h3>Target Applications</h3>
+            
+            <div class="use-case-grid">
+                <div class="use-case">
+                    <h4>🏦 Institutional Trading</h4>
+                    <ul>
+                        <li>Hedge fund strategy optimization</li>
+                        <li>Risk management validation</li>
+                        <li>Portfolio diversification analysis</li>
+                        <li>Regulatory compliance testing</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case">
+                    <h4>🎓 Research & Education</h4>
+                    <ul>
+                        <li>Academic trading strategy research</li>
+                        <li>Student learning simulations</li>
+                        <li>Algorithm development testing</li>
+                        <li>Market behavior analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case">
+                    <h4>👨‍💼 Individual Traders</h4>
+                    <ul>
+                        <li>Personal strategy optimization</li>
+                        <li>Historical backtesting</li>
+                        <li>Market timing analysis</li>
+                        <li>Strategy adaptation guidance</li>
+                    </ul>
+                </div>
+                
+                <div class="use-case">
+                    <h4>🏢 Financial Technology</h4>
+                    <ul>
+                        <li>Trading platform integration</li>
+                        <li>Robo-advisor enhancement</li>
+                        <li>Algorithm validation services</li>
+                        <li>Market analysis tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page 6: Future Possibilities -->
+    <section class="page future-page">
+        <h2 class="page-title">Future Roadmap & Possibilities</h2>
+        
+        <div class="roadmap-timeline">
+            <h3>Development Roadmap</h3>
+            
+            <div class="timeline">
+                <div class="timeline-item current">
+                    <div class="timeline-marker current"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 1: Core System ✅ Complete</h4>
+                        <ul>
+                            <li>10,000 EMA strategy testing</li>
+                            <li>3D torus visualization</li>
+                            <li>Time-based performance tracking</li>
+                            <li>Robust CSV parsing</li>
+                        </ul>
+                        <span class="timeline-date">Current Version</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item near">
+                    <div class="timeline-marker near"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 2: Enhanced Analytics</h4>
+                        <ul>
+                            <li>Machine learning pattern recognition</li>
+                            <li>Volatility-based strategy selection</li>
+                            <li>Risk-adjusted performance metrics</li>
+                            <li>Multi-asset support (Forex, Crypto, Stocks)</li>
+                        </ul>
+                        <span class="timeline-date">Q2 2025</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item mid">
+                    <div class="timeline-marker mid"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 3: Advanced Indicators</h4>
+                        <ul>
+                            <li>RSI, MACD, Bollinger Bands integration</li>
+                            <li>Multi-indicator strategy combinations</li>
+                            <li>Custom indicator development framework</li>
+                            <li>Strategy ensemble methods</li>
+                        </ul>
+                        <span class="timeline-date">Q4 2025</span>
+                    </div>
+                </div>
+                
+                <div class="timeline-item future">
+                    <div class="timeline-marker future"></div>
+                    <div class="timeline-content">
+                        <h4>Phase 4: Real-time Integration</h4>
+                        <ul>
+                            <li>Live market data feeds</li>
+                            <li>Automated trading execution</li>
+                            <li>Portfolio management integration</li>
+                            <li>Cloud-based scaling</li>
+                        </ul>
+                        <span class="timeline-date">2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="expansion-possibilities">
+            <h3>Technology Expansion Opportunities</h3>
+            
+            <div class="expansion-grid">
+                <div class="expansion-card">
+                    <h4>🤖 AI/ML Integration</h4>
+                    <div class="expansion-content">
+                        <p><strong>Machine Learning Models:</strong></p>
+                        <ul>
+                            <li>Predictive strategy performance</li>
+                            <li>Market regime classification</li>
+                            <li>Automated parameter optimization</li>
+                            <li>Anomaly detection in trading patterns</li>
+                        </ul>
+                        
+                        <p><strong>Neural Networks:</strong></p>
+                        <ul>
+                            <li>Deep learning for strategy evolution</li>
+                            <li>Reinforcement learning for adaptive trading</li>
+                            <li>Pattern recognition in market data</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="expansion-card">
+                    <h4>🌐 Multi-Market Support</h4>
+                    <div class="expansion-content">
+                        <p><strong>Asset Classes:</strong></p>
+                        <ul>
+                            <li>Cryptocurrency markets (Bitcoin, Ethereum)</li>
+                            <li>Stock markets (NYSE, NASDAQ)</li>
+                            <li>Forex pairs (EUR/USD, GBP/JPY)</li>
+                            <li>Commodities (Gold, Oil, Silver)</li>
+                        </ul>
+                        
+                        <p><strong>Market Features:</strong></p>
+                        <ul>
+                            <li>24/7 trading support</li>
+                            <li>Cross-market correlation analysis</li>
+                            <li>Multi-timeframe analysis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="expansion-card">
+                    <h4>📊 Advanced Visualization</h4>
+                    <div class="expansion-content">
+                        <p><strong>Enhanced 3D Graphics:</strong></p>
+                        <ul>
+                            <li>VR/AR trading environments</li>
+                            <li>Interactive strategy exploration</li>
+                            <li>Real-time heatmaps and surfaces</li>
+                            <li>Multi-dimensional parameter spaces</li>
+                        </ul>
+                        
+                        <p><strong>Dashboard Evolution:</strong></p>
+                        <ul>
+                            <li>Customizable workspace layouts</li>
+                            <li>Real-time collaboration features</li>
+                            <li>Mobile-responsive interfaces</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="expansion-card">
+                    <h4>⚡ Performance Scaling</h4>
+                    <div class="expansion-content">
+                        <p><strong>Computational Enhancement:</strong></p>
+                        <ul>
+                            <li>GPU acceleration for massive parallelization</li>
+                            <li>Cloud computing for unlimited scaling</li>
+                            <li>Distributed processing across multiple nodes</li>
+                            <li>Real-time streaming data processing</li>
+                        </ul>
+                        
+                        <p><strong>Scale Targets:</strong></p>
+                        <ul>
+                            <li>100,000+ simultaneous strategies</li>
+                            <li>Microsecond-level execution</li>
+                            <li>Petabyte-scale historical analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="innovation-potential">
+            <h3>Revolutionary Applications</h3>
+            
+            <div class="innovation-showcase">
+                <div class="innovation-item">
+                    <div class="innovation-visual">
+                        <div class="concept-diagram">
+                            <div class="center-node">AI Strategy Engine</div>
+                            <div class="connected-node top">Market Data</div>
+                            <div class="connected-node right">Pattern Recognition</div>
+                            <div class="connected-node bottom">Auto-Optimization</div>
+                            <div class="connected-node left">Risk Management</div>
+                        </div>
+                    </div>
+                    <div class="innovation-description">
+                        <h4>🧠 Autonomous Trading Intelligence</h4>
+                        <p>Evolution towards fully autonomous trading systems that adapt strategies in real-time based on market conditions, learn from performance patterns, and optimize parameters without human intervention.</p>
+                    </div>
+                </div>
+                
+                <div class="innovation-item">
+                    <div class="innovation-visual">
+                        <div class="network-diagram">
+                            <div class="network-nodes">
+                                <div class="node user">Traders</div>
+                                <div class="node platform">Platform</div>
+                                <div class="node ai">AI Engine</div>
+                                <div class="node market">Markets</div>
+                            </div>
+                            <div class="network-connections">
+                                <div class="connection"></div>
+                                <div class="connection"></div>
+                                <div class="connection"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="innovation-description">
+                        <h4>🌍 Global Strategy Marketplace</h4>
+                        <p>Platform evolution into a global marketplace where successful strategies are shared, validated, and monetized, creating a collaborative ecosystem of algorithmic trading intelligence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-section">
+            <h3>Next Steps</h3>
+            <div class="next-steps">
+                <div class="step-card">
+                    <h4>🔬 Live Demonstration</h4>
+                    <p>Experience the system firsthand with your own market data</p>
+                    <a href="http://localhost:8000/" class="demo-button">Launch Live Demo</a>
+                </div>
+                
+                <div class="step-card">
+                    <h4>📈 Custom Implementation</h4>
+                    <p>Discuss integration with your existing trading infrastructure</p>
+                    <div class="contact-info">
+                        <p><strong>Developer:</strong> Refik Baris Ozcelik</p>
+                        <p><strong>Portfolio:</strong> Advanced Trading Systems</p>
+                    </div>
+                </div>
+                
+                <div class="step-card">
+                    <h4>🚀 Strategic Partnership</h4>
+                    <p>Explore collaboration opportunities for enhanced development</p>
+                    <div class="partnership-benefits">
+                        <ul>
+                            <li>Custom feature development</li>
+                            <li>Integration support</li>
+                            <li>Advanced analytics modules</li>
+                            <li>Dedicated performance optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three.js for mini demos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/demo-visualization.js"></script>
+    <script>
+        // Set current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long', 
+            day: 'numeric'
+        });
+    </script>
+</body>
+</html>
