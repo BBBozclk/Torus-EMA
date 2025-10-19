@@ -1,43 +1,65 @@
-// Performance Tracker for EMA Strategy Analysis
+// Performance Tracker for Strategy Analysis (EMA & RSI)
 class PerformanceTracker {
     constructor() {
         this.traderPerformance = new Map();
-        this.emaConfigPerformance = new Map();
+        this.configPerformance = new Map(); // Renamed from emaConfigPerformance
         this.performanceHistory = []; // New: timestamped performance history
         this.updateInterval = null;
+        this.strategyType = 'EMA'; // Track current strategy type
     }
-    
+
+    // Set strategy type
+    setStrategyType(strategyType) {
+        this.strategyType = strategyType;
+    }
+
+    // Generate config key based on strategy type
+    getConfigKey(config) {
+        if (!config) return 'unknown';
+
+        // Check if it's RSI config (has period, oversold, overbought)
+        if (config.period !== undefined && config.oversold !== undefined && config.overbought !== undefined) {
+            return `${config.period}-${config.oversold}-${config.overbought}`;
+        }
+        // EMA config (has fast, medium, slow)
+        else if (config.fast !== undefined && config.medium !== undefined && config.slow !== undefined) {
+            return `${config.fast}-${config.medium}-${config.slow}`;
+        }
+
+        return 'unknown';
+    }
+
     // Track performance for a specific trader
-    trackTrader(traderId, emaConfig, profitLoss, totalTrades, portfolioValue) {
-        const key = `${emaConfig.fast}-${emaConfig.medium}-${emaConfig.slow}`;
+    trackTrader(traderId, config, profitLoss, totalTrades, portfolioValue) {
+        const key = this.getConfigKey(config);
         const now = Date.now();
         const returnPercent = ((portfolioValue - 1000) / 1000) * 100;
         
         // Update individual trader performance
         this.traderPerformance.set(traderId, {
-            emaConfig: emaConfig,
+            config: config,
             profitLoss: profitLoss,
             totalTrades: totalTrades,
             portfolioValue: portfolioValue,
             returnPercent: returnPercent,
             timestamp: now
         });
-        
+
         // Add to performance history for time-based analysis
         this.performanceHistory.push({
             timestamp: now,
             traderId: traderId,
-            emaConfig: emaConfig,
+            config: config,
             profitLoss: profitLoss,
             totalTrades: totalTrades,
             portfolioValue: portfolioValue,
             returnPercent: returnPercent
         });
-        
-        // Update EMA configuration aggregate performance
-        if (!this.emaConfigPerformance.has(key)) {
-            this.emaConfigPerformance.set(key, {
-                config: emaConfig,
+
+        // Update configuration aggregate performance
+        if (!this.configPerformance.has(key)) {
+            this.configPerformance.set(key, {
+                config: config,
                 traders: [],
                 totalReturn: 0,
                 avgReturn: 0,
@@ -47,8 +69,8 @@ class PerformanceTracker {
                 tradingTraders: 0
             });
         }
-        
-        const configStats = this.emaConfigPerformance.get(key);
+
+        const configStats = this.configPerformance.get(key);
         configStats.traders.push({
             traderId: traderId,
             return: ((portfolioValue - 1000) / 1000) * 100,
@@ -65,44 +87,72 @@ class PerformanceTracker {
         configStats.tradingTraders = configStats.traders.filter(t => t.trades > 0).length;
     }
     
-    // Get top performing EMA configurations
+    // Get top performing configurations (EMA or RSI)
     getTopConfigurations(limit = 10) {
-        const configs = Array.from(this.emaConfigPerformance.values())
+        const configs = Array.from(this.configPerformance.values())
             .filter(config => config.tradingTraders > 0) // Only configs with active traders
             .sort((a, b) => b.avgReturn - a.avgReturn)
             .slice(0, limit);
-            
-        return configs.map(config => ({
-            fast: config.config.fast,
-            medium: config.config.medium,
-            slow: config.config.slow,
-            avgReturn: config.avgReturn.toFixed(2) + '%',
-            bestReturn: config.bestReturn.toFixed(2) + '%',
-            worstReturn: config.worstReturn.toFixed(2) + '%',
-            totalTrades: config.totalTrades,
-            activeTraders: config.tradingTraders,
-            totalTraders: config.traders.length
-        }));
+
+        return configs.map(config => {
+            const result = {
+                avgReturn: config.avgReturn.toFixed(2) + '%',
+                bestReturn: config.bestReturn.toFixed(2) + '%',
+                worstReturn: config.worstReturn.toFixed(2) + '%',
+                totalTrades: config.totalTrades,
+                activeTraders: config.tradingTraders,
+                totalTraders: config.traders.length
+            };
+
+            // Add config-specific properties
+            if (config.config.fast !== undefined) {
+                // EMA config
+                result.fast = config.config.fast;
+                result.medium = config.config.medium;
+                result.slow = config.config.slow;
+            } else if (config.config.period !== undefined) {
+                // RSI config
+                result.period = config.config.period;
+                result.oversold = config.config.oversold;
+                result.overbought = config.config.overbought;
+            }
+
+            return result;
+        });
     }
     
-    // Get worst performing EMA configurations
+    // Get worst performing configurations (EMA or RSI)
     getWorstConfigurations(limit = 10) {
-        const configs = Array.from(this.emaConfigPerformance.values())
+        const configs = Array.from(this.configPerformance.values())
             .filter(config => config.tradingTraders > 0)
             .sort((a, b) => a.avgReturn - b.avgReturn)
             .slice(0, limit);
-            
-        return configs.map(config => ({
-            fast: config.config.fast,
-            medium: config.config.medium,
-            slow: config.config.slow,
-            avgReturn: config.avgReturn.toFixed(2) + '%',
-            bestReturn: config.bestReturn.toFixed(2) + '%',
-            worstReturn: config.worstReturn.toFixed(2) + '%',
-            totalTrades: config.totalTrades,
-            activeTraders: config.tradingTraders,
-            totalTraders: config.traders.length
-        }));
+
+        return configs.map(config => {
+            const result = {
+                avgReturn: config.avgReturn.toFixed(2) + '%',
+                bestReturn: config.bestReturn.toFixed(2) + '%',
+                worstReturn: config.worstReturn.toFixed(2) + '%',
+                totalTrades: config.totalTrades,
+                activeTraders: config.tradingTraders,
+                totalTraders: config.traders.length
+            };
+
+            // Add config-specific properties
+            if (config.config.fast !== undefined) {
+                // EMA config
+                result.fast = config.config.fast;
+                result.medium = config.config.medium;
+                result.slow = config.config.slow;
+            } else if (config.config.period !== undefined) {
+                // RSI config
+                result.period = config.config.period;
+                result.oversold = config.config.oversold;
+                result.overbought = config.config.overbought;
+            }
+
+            return result;
+        });
     }
     
     // Get individual trader rankings
@@ -111,16 +161,31 @@ class PerformanceTracker {
             .filter(trader => trader.totalTrades > 0)
             .sort((a, b) => b.returnPercent - a.returnPercent)
             .slice(0, limit)
-            .map(trader => ({
-                traderId: trader.emaConfig.fast + '-' + trader.emaConfig.medium + '-' + trader.emaConfig.slow,
-                fast: trader.emaConfig.fast,
-                medium: trader.emaConfig.medium,
-                slow: trader.emaConfig.slow,
-                return: trader.returnPercent.toFixed(2) + '%',
-                profitLoss: trader.profitLoss.toFixed(2),
-                trades: trader.totalTrades,
-                portfolioValue: trader.portfolioValue.toFixed(2)
-            }));
+            .map(trader => {
+                const result = {
+                    return: trader.returnPercent.toFixed(2) + '%',
+                    profitLoss: trader.profitLoss.toFixed(2),
+                    trades: trader.totalTrades,
+                    portfolioValue: trader.portfolioValue.toFixed(2)
+                };
+
+                // Add config-specific properties
+                if (trader.config.fast !== undefined) {
+                    // EMA config
+                    result.traderId = trader.config.fast + '-' + trader.config.medium + '-' + trader.config.slow;
+                    result.fast = trader.config.fast;
+                    result.medium = trader.config.medium;
+                    result.slow = trader.config.slow;
+                } else if (trader.config.period !== undefined) {
+                    // RSI config
+                    result.traderId = trader.config.period + '-' + trader.config.oversold + '-' + trader.config.overbought;
+                    result.period = trader.config.period;
+                    result.oversold = trader.config.oversold;
+                    result.overbought = trader.config.overbought;
+                }
+
+                return result;
+            });
     }
     
     // Get performance statistics summary
@@ -141,8 +206,8 @@ class PerformanceTracker {
             };
         }
         
-        const totalConfigs = this.emaConfigPerformance.size;
-        const activeConfigs = Array.from(this.emaConfigPerformance.values())
+        const totalConfigs = this.configPerformance.size;
+        const activeConfigs = Array.from(this.configPerformance.values())
             .filter(config => config.tradingTraders > 0).length;
             
         return {
@@ -160,35 +225,49 @@ class PerformanceTracker {
     exportPerformanceData() {
         const data = {
             timestamp: new Date().toISOString(),
+            strategyType: this.strategyType,
             summary: this.getPerformanceSummary(),
             topConfigurations: this.getTopConfigurations(50),
             worstConfigurations: this.getWorstConfigurations(50),
             topTraders: this.getTopTraders(100),
-            allConfigPerformance: Array.from(this.emaConfigPerformance.entries()).map(([key, config]) => ({
-                emaKey: key,
-                fast: config.config.fast,
-                medium: config.config.medium,
-                slow: config.config.slow,
-                avgReturn: config.avgReturn,
-                totalTraders: config.traders.length,
-                activeTraders: config.tradingTraders,
-                totalTrades: config.totalTrades
-            }))
+            allConfigPerformance: Array.from(this.configPerformance.entries()).map(([key, config]) => {
+                const result = {
+                    configKey: key,
+                    avgReturn: config.avgReturn,
+                    totalTraders: config.traders.length,
+                    activeTraders: config.tradingTraders,
+                    totalTrades: config.totalTrades
+                };
+
+                // Add config-specific properties
+                if (config.config.fast !== undefined) {
+                    result.fast = config.config.fast;
+                    result.medium = config.config.medium;
+                    result.slow = config.config.slow;
+                } else if (config.config.period !== undefined) {
+                    result.period = config.config.period;
+                    result.oversold = config.config.oversold;
+                    result.overbought = config.config.overbought;
+                }
+
+                return result;
+            })
         };
-        
+
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `ema_performance_analysis_${new Date().getTime()}.json`;
+        const strategyName = this.strategyType.toLowerCase();
+        a.download = `${strategyName}_performance_analysis_${new Date().getTime()}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }
     
     // Log performance analysis to console
     logPerformanceAnalysis() {
-        console.log('=== EMA STRATEGY PERFORMANCE ANALYSIS ===');
-        
+        console.log(`=== ${this.strategyType} STRATEGY PERFORMANCE ANALYSIS ===`);
+
         const summary = this.getPerformanceSummary();
         console.log('\n📊 SUMMARY:');
         console.log(`Total Traders: ${summary.totalTraders}`);
@@ -196,31 +275,49 @@ class PerformanceTracker {
         console.log(`Average Return: ${summary.avgReturn}`);
         console.log(`Best Return: ${summary.bestReturn}`);
         console.log(`Worst Return: ${summary.worstReturn}`);
-        console.log(`Total EMA Configs: ${summary.totalConfigs}`);
-        console.log(`Active EMA Configs: ${summary.activeConfigs}`);
-        
-        console.log('\n🏆 TOP 5 EMA CONFIGURATIONS:');
+        console.log(`Total Configs: ${summary.totalConfigs}`);
+        console.log(`Active Configs: ${summary.activeConfigs}`);
+
+        console.log(`\n🏆 TOP 5 ${this.strategyType} CONFIGURATIONS:`);
         this.getTopConfigurations(5).forEach((config, index) => {
-            console.log(`${index + 1}. Fast=${config.fast}, Medium=${config.medium}, Slow=${config.slow}`);
+            if (config.fast !== undefined) {
+                // EMA
+                console.log(`${index + 1}. EMA(${config.fast}, ${config.medium}, ${config.slow})`);
+            } else if (config.period !== undefined) {
+                // RSI
+                console.log(`${index + 1}. RSI(Period=${config.period}, OS=${config.oversold}, OB=${config.overbought})`);
+            }
             console.log(`   Avg Return: ${config.avgReturn}, Best: ${config.bestReturn}, Active Traders: ${config.activeTraders}`);
         });
-        
-        console.log('\n📉 WORST 5 EMA CONFIGURATIONS:');
+
+        console.log(`\n📉 WORST 5 ${this.strategyType} CONFIGURATIONS:`);
         this.getWorstConfigurations(5).forEach((config, index) => {
-            console.log(`${index + 1}. Fast=${config.fast}, Medium=${config.medium}, Slow=${config.slow}`);
+            if (config.fast !== undefined) {
+                // EMA
+                console.log(`${index + 1}. EMA(${config.fast}, ${config.medium}, ${config.slow})`);
+            } else if (config.period !== undefined) {
+                // RSI
+                console.log(`${index + 1}. RSI(Period=${config.period}, OS=${config.oversold}, OB=${config.overbought})`);
+            }
             console.log(`   Avg Return: ${config.avgReturn}, Worst: ${config.worstReturn}, Active Traders: ${config.activeTraders}`);
         });
-        
+
         console.log('\n⭐ TOP 5 INDIVIDUAL TRADERS:');
         this.getTopTraders(5).forEach((trader, index) => {
-            console.log(`${index + 1}. EMA(${trader.fast},${trader.medium},${trader.slow}): ${trader.return} return, ${trader.trades} trades`);
+            if (trader.fast !== undefined) {
+                // EMA
+                console.log(`${index + 1}. EMA(${trader.fast},${trader.medium},${trader.slow}): ${trader.return} return, ${trader.trades} trades`);
+            } else if (trader.period !== undefined) {
+                // RSI
+                console.log(`${index + 1}. RSI(${trader.period},${trader.oversold},${trader.overbought}): ${trader.return} return, ${trader.trades} trades`);
+            }
         });
     }
     
     // Clear all performance data
     clearData() {
         this.traderPerformance.clear();
-        this.emaConfigPerformance.clear();
+        this.configPerformance.clear();
         this.performanceHistory = [];
     }
     
@@ -233,32 +330,44 @@ class PerformanceTracker {
     // Get leaderboard for specific time period
     getLeaderboardForPeriod(days, limit = 30) {
         const periodData = this.getPerformanceForPeriod(days);
-        
-        // Group by EMA configuration and get latest performance for each
+
+        // Group by configuration and get latest performance for each
         const configMap = new Map();
-        
+
         periodData.forEach(entry => {
-            const key = `${entry.emaConfig.fast}-${entry.emaConfig.medium}-${entry.emaConfig.slow}`;
+            const key = this.getConfigKey(entry.config);
             if (!configMap.has(key) || entry.timestamp > configMap.get(key).timestamp) {
                 configMap.set(key, entry);
             }
         });
-        
+
         // Convert to array and sort by return percentage
         return Array.from(configMap.values())
             .filter(entry => entry.totalTrades > 0)
             .sort((a, b) => b.returnPercent - a.returnPercent)
             .slice(0, limit)
-            .map((entry, index) => ({
-                rank: index + 1,
-                fast: entry.emaConfig.fast,
-                medium: entry.emaConfig.medium,
-                slow: entry.emaConfig.slow,
-                returnPercent: entry.returnPercent.toFixed(2) + '%',
-                profitLoss: entry.profitLoss.toFixed(2),
-                totalTrades: entry.totalTrades,
-                portfolioValue: entry.portfolioValue.toFixed(2)
-            }));
+            .map((entry, index) => {
+                const result = {
+                    rank: index + 1,
+                    returnPercent: entry.returnPercent.toFixed(2) + '%',
+                    profitLoss: entry.profitLoss.toFixed(2),
+                    totalTrades: entry.totalTrades,
+                    portfolioValue: entry.portfolioValue.toFixed(2)
+                };
+
+                // Add config-specific properties
+                if (entry.config.fast !== undefined) {
+                    result.fast = entry.config.fast;
+                    result.medium = entry.config.medium;
+                    result.slow = entry.config.slow;
+                } else if (entry.config.period !== undefined) {
+                    result.period = entry.config.period;
+                    result.oversold = entry.config.oversold;
+                    result.overbought = entry.config.overbought;
+                }
+
+                return result;
+            });
     }
     
     // Time-based leaderboard functions
@@ -267,16 +376,28 @@ class PerformanceTracker {
             .filter(trader => trader.totalTrades > 0)
             .sort((a, b) => b.returnPercent - a.returnPercent)
             .slice(0, limit)
-            .map((trader, index) => ({
-                rank: index + 1,
-                fast: trader.emaConfig.fast,
-                medium: trader.emaConfig.medium,
-                slow: trader.emaConfig.slow,
-                returnPercent: trader.returnPercent.toFixed(2) + '%',
-                profitLoss: trader.profitLoss.toFixed(2),
-                totalTrades: trader.totalTrades,
-                portfolioValue: trader.portfolioValue.toFixed(2)
-            }));
+            .map((trader, index) => {
+                const result = {
+                    rank: index + 1,
+                    returnPercent: trader.returnPercent.toFixed(2) + '%',
+                    profitLoss: trader.profitLoss.toFixed(2),
+                    totalTrades: trader.totalTrades,
+                    portfolioValue: trader.portfolioValue.toFixed(2)
+                };
+
+                // Add config-specific properties
+                if (trader.config.fast !== undefined) {
+                    result.fast = trader.config.fast;
+                    result.medium = trader.config.medium;
+                    result.slow = trader.config.slow;
+                } else if (trader.config.period !== undefined) {
+                    result.period = trader.config.period;
+                    result.oversold = trader.config.oversold;
+                    result.overbought = trader.config.overbought;
+                }
+
+                return result;
+            });
     }
     
     getLastWeekLeaderboard(limit = 30) {

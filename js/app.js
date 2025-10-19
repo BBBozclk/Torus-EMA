@@ -181,7 +181,23 @@ class App {
     exportPerformanceData() {
         this.trading.exportPerformanceData();
     }
-    
+
+    // Strategy toggle function
+    toggleStrategy() {
+        const currentStrategy = this.trading.activeStrategy;
+        const newStrategy = currentStrategy === 'EMA' ? 'RSI' : 'EMA';
+
+        // Update strategy (this will also update UI labels automatically)
+        this.trading.switchStrategy(newStrategy);
+
+        // Update button text
+        const button = document.getElementById('strategyToggleBtn');
+        button.textContent = newStrategy === 'EMA' ? 'Switch to RSI' : 'Switch to EMA';
+
+        console.log(`Strategy switched to ${newStrategy}`);
+        alert(`Strategy switched to ${newStrategy}!\n\nAll traders have been reset and reinitialized with unique ${newStrategy} parameters.`);
+    }
+
     // Statistics panel functions
     toggleStatisticsPanel() {
         const panel = document.getElementById('statisticsPanel');
@@ -250,15 +266,28 @@ class App {
             container.innerHTML = '<div class="stats-loading">No performance data available yet.<br>Start trading to see results!</div>';
             return;
         }
-        
+
         const html = leaderboard.map(entry => {
             const returnClass = parseFloat(entry.returnPercent) >= 0 ? 'positive' : 'negative';
             const rankClass = entry.rank <= 3 ? `rank-${entry.rank}` : '';
-            
+
+            // Format configuration display based on strategy type
+            let configDisplay;
+            if (entry.period !== undefined && entry.oversold !== undefined && entry.overbought !== undefined) {
+                // RSI strategy
+                configDisplay = `RSI(${entry.period},${entry.oversold},${entry.overbought})`;
+            } else if (entry.fast !== undefined && entry.medium !== undefined && entry.slow !== undefined) {
+                // EMA strategy
+                configDisplay = `EMA(${entry.fast},${entry.medium},${entry.slow})`;
+            } else {
+                // Fallback for unknown format
+                configDisplay = 'Unknown Configuration';
+            }
+
             return `
                 <div class="stats-item ${rankClass}">
                     <div class="stats-rank">${entry.rank}</div>
-                    <div class="stats-ema">EMA(${entry.fast},${entry.medium},${entry.slow})</div>
+                    <div class="stats-ema">${configDisplay}</div>
                     <div>
                         <div class="stats-return ${returnClass}">${entry.returnPercent}</div>
                         <div class="stats-details">${entry.totalTrades} trades</div>
@@ -266,7 +295,7 @@ class App {
                 </div>
             `;
         }).join('');
-        
+
         container.innerHTML = html;
     }
     
@@ -435,6 +464,9 @@ function testTrading(numPrices) { return window.app.testTrading(numPrices); }
 function toggleStatisticsPanel() { window.app.toggleStatisticsPanel(); }
 function showStatsTab(tabName) { window.app.showStatsTab(tabName); }
 function refreshStatistics() { window.app.refreshStatistics(); }
+
+// Strategy switching
+function toggleStrategy() { window.app.toggleStrategy(); }
 
 // Initialize the application
 new App();

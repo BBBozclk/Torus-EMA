@@ -31,11 +31,11 @@
         </div>
         
         <div class="ema-display" style="margin-top: 10px; padding: 10px; background: #1a1a1a; border-radius: 5px;">
-            <h4 style="margin: 0 0 10px 0; color: #4a90e2; font-size: 0.9em;">Market EMAs</h4>
+            <h4 id="indicatorTitle" style="margin: 0 0 10px 0; color: #4a90e2; font-size: 0.9em;">Market EMAs</h4>
             <div style="font-size: 0.85em;">
-                <div>Fast EMA (9): <span id="fastEMA" style="color: #00ff88;">--</span></div>
-                <div>Medium EMA (21): <span id="mediumEMA" style="color: #ffaa00;">--</span></div>
-                <div>Slow EMA (50): <span id="slowEMA" style="color: #ff4444;">--</span></div>
+                <div><span id="indicator1Label">Fast EMA (9)</span>: <span id="fastEMA" style="color: #00ff88;">--</span></div>
+                <div><span id="indicator2Label">Medium EMA (21)</span>: <span id="mediumEMA" style="color: #ffaa00;">--</span></div>
+                <div><span id="indicator3Label">Slow EMA (50)</span>: <span id="slowEMA" style="color: #ff4444;">--</span></div>
                 <div style="margin-top: 5px; font-size: 0.8em; color: #666;">
                     Signal: <span id="marketSignal" style="font-weight: bold;">--</span>
                 </div>
@@ -120,6 +120,7 @@
         <button id="fixedViewBtn" class="control-btn" onclick="setFixedView()">Fixed View</button>
         <button id="adminToggleBtn" class="control-btn" onclick="toggleAdminPanel()">Admin Access</button>
         <button id="statisticsToggleBtn" class="control-btn" onclick="toggleStatisticsPanel()">📊 Statistics</button>
+        <button id="strategyToggleBtn" class="control-btn" onclick="toggleStrategy()">Switch to RSI</button>
     </div>
     
     <!-- Admin Panel -->
@@ -226,6 +227,7 @@
     
     <!-- Application Scripts -->
     <script src="js/ema-calculator.js"></script>
+    <script src="js/rsi-calculator.js"></script>
     <script src="js/box-trader.js"></script>
     <script src="js/performance-tracker.js"></script>
     <script src="js/trading-system.js"></script>
